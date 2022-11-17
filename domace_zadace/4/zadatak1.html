@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Domaća zadaća 4</title>
+        <link rel="stylesheet" href="../4/css/styles.css">
+
+        <script>
+            function crtaj(){
+                var platno = document.getElementById("platno");
+                persp = new Persp(platno, -15, 15, -15, 15, 5);
+                mt3d = new MT3D();
+                var stranica = 1;
+                var a=5;
+                var fi=0;
+                var korak = 0.01;
+                var b = null;
+                var h = 2;
+                
+                function animiraj(){
+                    persp.ocisti();
+                    persp.trans(mt3d);
+                    
+                    if (h < 3){
+                        b = false;
+                    }
+                    else if (h > 5){
+                        b = true;
+                    }
+
+                    if(b != true){
+                        h = h + korak
+                    }
+                    else{
+                        h = h - korak;
+                    }
+
+                    var paramX=a*Math.cos(fi);
+                    var paramY=a*Math.sin(fi);
+                    
+                    mt3d.postaviKameru(paramX, h, paramY, 0, 0, 0, 0, 5, 0);
+                    persp.koristiBoju("red");
+
+                    //mreža
+                    mt3d.identitet();
+                    persp.trans(mt3d);
+                    for (var x = -4; x <= 4; x++){
+                        persp.postaviNa(x, 0, -4);
+                        persp.linijaDo(x, 0, 4);
+                        persp.povuciLiniju();
+                        
+                        
+                    }
+                    for (var z = -4; z <= 4; z++){
+                        persp.postaviNa(-4, 0, z);
+                        persp.linijaDo(4, 0, z);
+                        persp.povuciLiniju();
+                    }
+
+                    //slovo F
+                    persp.koristiBoju("black");
+                    persp.trans(mt3d);
+                    kocka(persp, stranica);
+                    
+                    mt3d.pomakni(0, stranica, 0);
+                    persp.trans(mt3d);
+                    kocka(persp, stranica);
+                    
+                    mt3d.pomakni(0, stranica, 0);
+                    persp.trans(mt3d);
+                    kocka(persp, stranica);
+                    
+                    mt3d.pomakni(0, stranica, 0);
+                    persp.trans(mt3d);
+                    kocka(persp, stranica);
+
+                    mt3d.pomakni(0, stranica, 0);
+                    persp.trans(mt3d);
+                    kocka(persp, stranica);
+
+                    mt3d.pomakni(stranica, 0, 0);
+                    persp.trans(mt3d);
+                    kocka(persp, stranica);
+                    
+                    mt3d.pomakni(stranica, 0, 0);
+                    persp.trans(mt3d);
+                    kocka(persp, stranica);
+                    
+                    mt3d.identitet();
+                    mt3d.pomakni(stranica, 2 * stranica, 0);
+                    persp.trans(mt3d);
+                    kocka(persp, stranica);
+                    
+                    requestAnimationFrame(animiraj);
+                    if (fi == 2*Math.PI) {
+                        fi == 0;
+                    }
+                    else{
+                        fi=fi+korak;
+                    }
+                }
+
+                animiraj();
+
+                function kocka(){ //potrebno je bilo staviti u klasu radi lakšeg slaganja kockica za slovo F
+                    persp.postaviNa(stranica, 0, 0);
+                    persp.linijaDo(stranica, stranica, 0);
+                    persp.linijaDo(0, stranica, 0);
+                    persp.linijaDo(0, 0, 0);
+                    persp.linijaDo(stranica, 0, 0);
+                    persp.linijaDo(stranica, 0, stranica);
+                    persp.linijaDo(stranica, stranica, stranica);
+                    persp.linijaDo(0, stranica, stranica);
+                    persp.linijaDo(0, 0, stranica);
+                    persp.linijaDo(stranica, 0, stranica);
+                    persp.povuciLiniju();//gornja i donja ploha povezana jednim bridom
+                    persp.postaviNa(stranica, stranica, stranica);
+                    persp.linijaDo(stranica, stranica, 0);
+                    persp.povuciLiniju();
+                    persp.postaviNa(0, stranica, stranica);
+                    persp.linijaDo(0, stranica, 0);
+                    persp.povuciLiniju();
+                    persp.postaviNa(0, 0, stranica);
+                    persp.linijaDo(0, 0, 0);
+                    persp.povuciLiniju();
+                }
+            }
+		</script>
+    </head>
+    <body onload=crtaj()>
+        <div class="nav">
+            <nav>
+                <ul>
+                    <li><a href="../4/index.html">Zadaća 4</a></li>
+                    <li><a href="../4/zadatak1.html">Zadatak 1</a></li>
+                </ul>
+            </nav>
+        </div>
+        <div>
+            <h1>Zadatak 1.</h1>
+            <h2>Student: Jerry John Antolos <br> JMBAG: 0016120073 <br> Datum: 10. studenog 2022.</h2>
+        </div>	
+
+        <div>
+            <canvas id="platno" width="500" height="500">
+                Vaš preglednik ne podržava HTML5 canvas.
+            </canvas>
+            <h4>Zadatak 1. Rotacija 3D slova F</h4>
+        </div>
+	</body>
+    <script src="../4/js/PERSP.js"></script>
+    <script src="../4/js/MT3D.js"></script>
+</html>

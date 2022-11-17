@@ -1,0 +1,105 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Domaća zadaća 3</title>
+        <link rel="stylesheet" href="../3/css/styles.css">
+
+        <script>
+            function crtaj(){
+                var platno = document.getElementById("platno");
+                orth = new Ortho(platno, -5, 5, -5, 5);
+                mt3d = new MT3D();
+                
+                var kut = 0;
+                var dKut = 0.7;
+
+                function rotacijaKocke(){
+                    orth.ocisti(); 
+                    mt3d.identitet();
+                    orth.trans(mt3d);
+                    //pravac
+                    orth.koristiBoju("red");
+                    
+                    var a_p = orth.xmin;
+                    var a_crtano = orth.xmax;
+                    var b = ((5 - (-5))) / ((-3) - 2) * (a_p - 2) + (-5);
+                    var c = (((-3) - 2) / ((-3) - 2) * (a_p - 2)) + 2;
+                    orth.postaviNa(a_p, b, c);
+                    for (var i = a_p; i < a_crtano; i++){
+                        var y = ((5 - (-5)) / ((-3) - 2) * (i - 2)) + (-5);
+                        var z = (((-3) - 2) / ((-3)- 2) * (i - 2)) + 2;
+                        orth.linijaDo(i, y ,z);
+                    }
+                    orth.povuciLiniju();
+                    
+                    orth.koristiBoju("black");
+                    var rad = mt3d.kutRadijani(kut)
+                    mt3d.identitet();
+                    mt3d.pomakni(1, 1, 1);
+                    mt3d.rotiraj_oko_osi(2, -5, 2, -3, 5, -3, rad);
+                    orth.trans(mt3d);
+
+                    var a_kck = 2
+                    var krd = a_kck/2;
+                    orth.postaviNa(krd, -krd, -krd);
+                    orth.linijaDo(krd, krd, -krd);
+                    orth.linijaDo(-krd, krd, -krd);
+                    orth.linijaDo(-krd, -krd, -krd);
+                    orth.linijaDo(krd, -krd, -krd);
+                    orth.linijaDo(krd, -krd, krd);
+                    orth.linijaDo(krd, krd, krd);
+                    orth.linijaDo(-krd, krd, krd);
+                    orth.linijaDo(-krd, -krd, krd);
+                    orth.linijaDo(krd, -krd, krd);
+                    orth.povuciLiniju();//gornja i donja ploha povezana jednim bridom
+                    orth.postaviNa(krd, krd, krd);
+                    orth.linijaDo(krd, krd, -krd);
+                    orth.povuciLiniju();
+                    orth.postaviNa(-krd, krd, krd);
+                    orth.linijaDo(-krd, krd, -krd);
+                    orth.povuciLiniju();
+                    orth.postaviNa(-krd, -krd, krd);
+                    orth.linijaDo(-krd, -krd, -krd);
+                    orth.povuciLiniju();//ostala tri brida
+
+                    const rez = kut + dKut
+                    if(rez >= 360){
+                        kut = 0;
+                    }
+                    else{
+                        kut += dKut;
+                    }
+                    requestAnimationFrame(rotacijaKocke);
+                }
+                rotacijaKocke();
+            }
+		</script>
+    </head>
+    <body onload=crtaj()>
+        <div class="nav">
+            <nav>
+                <ul>
+                    <li><a href="../3/index.html">Zadaća 3</a></li>
+                    <li><a href="../3/zadatak1.html">Zadatak 1</a></li>
+                </ul>
+            </nav>
+        </div>
+        <div>
+            <h1>Zadatak 1.</h1>
+            <h2>Student: Jerry John Antolos <br> JMBAG: 0016120073 <br> Datum: 03. studenog 2022.</h2>
+        </div>	
+
+        <div>
+            <canvas id="platno" width="500" height="500">
+                Vaš preglednik ne podržava HTML5 canvas.
+            </canvas>
+            <h4>Zadatak 1. Rotacija 3D kocke</h4>
+        </div>
+	</body>
+    <script src="../3/js/ORTHO.js"></script>
+    <script src="../3/js/MT3D.js"></script>
+</html>

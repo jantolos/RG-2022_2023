@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="hr">
+	<head>
+		<meta charset="UTF-8">
+		<title>Parabola</title>
+		<script>
+            window.onload = crtaj;
+            function crtaj(){
+                var pl = document.getElementById("slika1");
+                var w = pl.width;
+                var h = pl.height;
+                var g = pl.getContext("2d");
+                
+                g.beginPath();
+                g.moveTo(w/2,0);
+                g.lineTo(w/2,h);
+                g.moveTo(0,h/2);
+                g.lineTo(w,h/2);
+                g.stroke();
+
+                for (let index = 0; index < array.length; index++) {
+                    var x = i;
+                    var y = 0.5*Math.pow(x,2)-3;
+
+                    var s_x = (w-0)/(x_max - x_min);
+                    var s_y = (0-h)/(y_max - y_min);
+                    var p_x = -(s_x*x_min);
+                    var p_y = -(s_y*y_max);
+                    var x_crtano = (s_x*x)+p_x;
+                    var y_crtano = (s_y*y)+p_y;
+
+                    if (i == x_min) {
+                        g.beginPath();
+                        g.moveTo(x_crtano,y_crtano)
+                    }
+                    else{
+                        g.lineTo(x_crtano,y_crtano);
+                        g.strokeStyle = 'red';
+                        g.stroke();
+                    }
+                }
+            }
+        </script>
+	</head>
+
+	<body>
+		<h1>Parabola</h1>	
+		<div>
+			<canvas id="slika1" width="800" height="800" style="border:5px solid black">
+				Vaš preglednik ne podržava HTML5 canvas.
+			</canvas>
+		</div>
+	</body>
+</html>

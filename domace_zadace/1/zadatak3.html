@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Domaća zadaća 1</title>
+        <link rel="stylesheet" href="../1/css/styles.css">
+    </head>
+    <body>
+        <div class="nav">
+            <nav>
+                <ul>
+                    <li><a href="../1/index.html">Zadaća 1</a></li>
+                    <li><a href="../1/zadatak1.html">Zadatak 1</a></li>
+                    <li><a href="../1/zadatak2.html">Zadatak 2</a></li>
+                    <li><a href="../1/zadatak3.html">Zadatak 3</a></li>
+                </ul>
+            </nav>
+        </div>
+        <div>
+            <h1>Zadatak 3.</h1>
+            <h2>Student: Jerry John Antolos <br> JMBAG: 0016120073 <br> Datum: 17. listopada 2022.</h2>
+        </div>	
+
+        <div>
+            <canvas id="platno" width="600" height="600">
+                Vaš preglednik ne podržava HTML5 canvas.
+            </canvas>
+            <h4>Zadatak 3. Leptir</h4>
+        </div>
+        <script src="../1/js/GKS.js"></script>
+        <script>
+            var koord = new GKS("platno", -5, 5, -5, 5);
+                window.onload = crtaj;
+                function crtaj(){
+                    var graf = new GKS("platno", -5, 5, -5, 5);
+
+                    for (let i = 0; i <= 12*Math.PI; i+=0.05) {
+                        var t = i;
+                        var x = (Math.pow(Math.E,Math.cos(t))-2*Math.cos(4*t)+Math.pow(Math.sin(t/12),5))*Math.sin(t);
+                        var y = (Math.pow(Math.E,Math.cos(t))-2*Math.cos(4*t)+Math.pow(Math.sin(t/12),5))*Math.cos(t);
+                        
+                        if (i == 0) {
+                            graf.postaviNa(x, y);
+                        }
+                        else{
+                            graf.linijaDo(x, y);
+                            graf.koristiBoju('red');
+                            graf.povuciLiniju();
+                        }
+                    }
+                }
+        </script>
+    </body>
+</html>

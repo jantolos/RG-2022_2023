@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Labos 5</title>
+        <link rel="stylesheet" href="../5/css/styles.css">
+
+        <script>
+            function crtaj(){
+                var platno = document.getElementById("platno");
+                persp = new Persp(platno, -5, 5, -5, 5, 5);
+                mt3d = new MT3D();
+                var stranica = 1;
+                var a=7;
+                var fi=0;
+                var korak = 0.01;
+                var b = null;
+                var h = 1;
+                
+                function animiraj(){
+                    persp.ocisti();
+                    persp.trans(mt3d);
+                    
+                    if (h < 2){
+                        b = false;
+                    }
+                    else if (h > 5){
+                        b = true;
+                    }
+
+                    if(b != true){
+                        h = h + korak
+                    }
+                    else{
+                        h = h - korak;
+                    }
+
+                    var paramX=a*Math.cos(fi);
+                    var paramY=a*Math.sin(fi);
+                    
+                    mt3d.postaviKameru(paramX, h, paramY, 0, 0, 0, 0, 5, 0);
+                    persp.koristiBoju("red");
+                    console.log(paramX, paramY);
+
+                    //mreža
+                    mt3d.identitet();
+                    persp.trans(mt3d);
+                    for (var x = -4; x <= 4; x++){
+                        persp.postaviNa(x, 0, -4);
+                        persp.linijaDo(x, 0, 4);
+                        persp.povuciLiniju();
+                        
+                        
+                    }
+                    for (var z = -4; z <= 4; z++){
+                        persp.postaviNa(-4, 0, z);
+                        persp.linijaDo(4, 0, z);
+                        persp.povuciLiniju();
+                    }
+
+                    
+                    //stozac
+                    persp.koristiBoju("black");
+                    persp.stozac(3,5,24);
+                    
+
+                    requestAnimationFrame(animiraj);
+                    if (fi == 2*Math.PI) {
+                        fi == 0;
+                    }
+                    else{
+                        fi=fi+korak;
+                    }
+                }
+
+                animiraj();
+            }
+		</script>
+    </head>
+    <body onload=crtaj()>
+        <div class="nav">
+            <nav>
+                <ul>
+                    <li><a href="../5/index.html">Labos 5</a></li>
+                    <li><a href="../5/zadatak1.html">Zadatak 1</a></li>
+                </ul>
+            </nav>
+        </div>
+        <div>
+            <h1>Zadatak 1.</h1>
+            <h2>Student: Jerry John Antolos <br> JMBAG: 0016120073 <br> Datum: 10. studenog 2022.</h2>
+        </div>	
+
+        <div>
+            <canvas id="platno" width="500" height="500">
+                Vaš preglednik ne podržava HTML5 canvas.
+            </canvas>
+            <h4>Zadatak 1. Rotacija 3D stošca</h4>
+        </div>
+	</body>
+    <script src="../5/js/PERSP.js"></script>
+    <script src="../5/js/MT3D.js"></script>
+</html>

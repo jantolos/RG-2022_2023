@@ -1,0 +1,130 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Domaća zadaća 1</title>
+        <link rel="stylesheet" href="../2/css/styles.css">
+
+        <script>
+            function pravokutnikDio(gks, x0, y0, x1, y1){
+                gks.postaviNa(x0, y0);
+                gks.linijaDo(x1, y0);
+                gks.linijaDo(x1, y1);
+                gks.linijaDo(x0, y1);
+                gks.linijaDo(x0, y0);
+                gks.povuciLiniju();
+            }
+
+            function kotac(gks, a, b){
+                var dt = 0.01;
+                gks.postaviNa(a * Math.cos(0), b * Math.sin(0));
+				for (var t=0+dt; t<=2 * Math.PI; t+=dt){
+                    let x = a * Math.cos(t);
+                    let y = b * Math.sin(t);
+                    gks.linijaDo(x, y);
+				}
+                gks.povuciLiniju();
+            }
+
+            function vlakic(gks, mt2d, x0, y0, x1, y1){
+                pravokutnikDio(gks, x0, y0, x1, y1);
+                pravokutnikDio(gks, x0 + 4, y0, x1 + 2, y1 + 1);
+                pravokutnikDio(gks, x0 + 4.25, y0 + 2, x1 + 1.75, y1 + 0.75);
+            }
+
+            function lokomotiva(){
+                var platno = document.getElementById("platno");
+                gks = new GKS(platno, -10, 10, -3, 10);
+                mt2d = new MT2D();
+
+                gks.postaviNa(-7, 3 * -7 + 6)
+                gks.linijaDo(10, 3 * 10+6);
+                gks.povuciLiniju();
+                
+                mt2d.pomakni(1, 2);
+                gks.trans(mt2d);
+                vlakic(gks, mt2d, 0, 0, 4, 2);
+
+                mt2d.identitet();
+                mt2d.pomakni(2, 2);
+                gks.trans(mt2d);
+                kotac(gks, 0.5, 0.5);
+
+                mt2d.identitet();
+                mt2d.pomakni(6, 2);
+                gks.trans(mt2d);
+                kotac(gks, 0.5, 0.5);
+
+                gks.koristiBoju("red");
+                mt2d.identitet();
+                gks.trans(mt2d);
+                gks.postaviNa(-7, 3 * -7 + 6)
+                gks.linijaDo(10, 3 * 10+6);
+                gks.povuciLiniju();
+
+                var kut = Math.atan(3);
+                gks.koristiBoju("blue");
+                mt2d.identitet();
+                mt2d.pomakni(1, 2);
+                mt2d.pomakni(0, -6);
+                mt2d.rotiraj(-kut);
+                mt2d.zrcaliNaX();
+                mt2d.rotiraj(kut);
+                mt2d.pomakni(0, 6);
+                gks.trans(mt2d);
+                vlakic(gks, mt2d, 0, 0, 4, 2);
+
+                mt2d.identitet();
+                mt2d.pomakni(2, 2);
+                mt2d.pomakni(0, -6);
+                mt2d.rotiraj(-kut);
+                mt2d.zrcaliNaX();
+                mt2d.rotiraj(kut);
+                mt2d.pomakni(0, 6);
+                gks.trans(mt2d);
+                kotac(gks, 0.5, 0.5);
+
+                mt2d.identitet();
+                mt2d.pomakni(6, 2);
+                mt2d.pomakni(0, -6);
+                mt2d.rotiraj(-kut);
+                mt2d.zrcaliNaX();
+                mt2d.rotiraj(kut);
+                mt2d.pomakni(0, 6);
+                gks.trans(mt2d);
+                kotac(gks, 0.5, 0.5);
+                gks.nazivCrteza(-10,-10,"Vlakić")
+            }
+
+            function crtaj(){
+                lokomotiva();
+            }
+		</script>
+    </head>
+    <body onload=crtaj()>
+        <div class="nav">
+            <nav>
+                <ul>
+                    <li><a href="../2/index.html">Zadaća 1</a></li>
+                    <li><a href="../2/zadatak1.html">Zadatak 1</a></li>
+                </ul>
+            </nav>
+        </div>
+        <div>
+            <h1>Zadatak 1.</h1>
+            <h2>Student: Jerry John Antolos <br> JMBAG: 0016120073 <br> Datum: 27. listopada 2022.</h2>
+        </div>	
+
+        <div>
+            <canvas id="platno" width="700" height="500">
+                Vaš preglednik ne podržava HTML5 canvas.
+            </canvas>
+            <h4>Zadatak 1. Vlakić</h4>
+        </div>
+	</body>
+    <script src="../2/js/GKS.js"></script>
+    <script src="../2/js/MT2D.js"></script>
+</html>

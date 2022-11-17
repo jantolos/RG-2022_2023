@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Domaća zadaća 5</title>
+        <link rel="stylesheet" href="../5/css/styles.css">
+
+        <script>
+            function crtaj(){
+                var platno = document.getElementById("platno");
+                persp = new Persp(platno, -8, 8, -8, 8, 8);
+                mt3d = new MT3D();
+                
+                var kut = 0;
+                var dKut = 0.25;
+                
+                function animiraj(){
+                    persp.ocisti();
+                    persp.trans(mt3d);
+                    
+                    mt3d.postaviKameru(5, 5, 5, 0, 0, 0, 0, 5, 0);
+                    persp.koristiBoju("red");
+
+                    //mreža
+                    mt3d.identitet();
+                    persp.trans(mt3d);
+                    for (var x = -4; x <= 4; x++){
+                        persp.postaviNa(x, 0, -4);
+                        persp.linijaDo(x, 0, 4);
+                        persp.povuciLiniju();
+                    }
+                    for (var z = -4; z <= 4; z++){
+                        persp.postaviNa(-4, 0, z);
+                        persp.linijaDo(4, 0, z);
+                        persp.povuciLiniju();
+                    }
+                    
+                    //stozac-postolje
+                    persp.koristiBoju("black");
+                    persp.stozac(3,5,24);
+                    
+                    //valjak-mehanizam
+                    persp.koristiBoju("black");
+                    mt3d.rotirajY(mt3d.kutRadijani(kut));
+                    mt3d.pomakni(0, 3.8, 0);
+                    persp.trans(mt3d);
+                    persp.valjak(0.9,1.2,14);
+                    
+                    //valjak-"elisa1"
+                    mt3d.identitet();
+                    mt3d.rotirajZ(mt3d.kutRadijani(90));
+                    mt3d.rotirajY(mt3d.kutRadijani(kut+120));
+                    mt3d.pomakni(0, 4.5, 0);
+                    persp.trans(mt3d);
+                    persp.valjak(0.2, 3, 14);
+
+                    //valjak-"elisa2"
+                    mt3d.identitet();
+                    mt3d.rotirajZ(mt3d.kutRadijani(90));
+                    mt3d.rotirajY(mt3d.kutRadijani(kut+240));
+                    mt3d.pomakni(0, 4.5, 0);
+                    persp.trans(mt3d);
+                    persp.valjak(0.2, 3, 14);
+
+                    //valjak-"elisa3"
+                    mt3d.identitet();
+                    mt3d.rotirajZ(mt3d.kutRadijani(90));
+                    mt3d.rotirajY(mt3d.kutRadijani(kut+360));
+                    mt3d.pomakni(0, 4.5, 0);
+                    persp.trans(mt3d);
+                    persp.valjak(0.2, 3, 14);
+
+                    //polusfera-"lopatica"
+                    mt3d.identitet();
+                    mt3d.rotirajY(mt3d.kutRadijani(45));
+                    mt3d.pomakni(2, 4.5, -3.5);
+                    mt3d.rotirajY(mt3d.kutRadijani(kut));
+                    persp.trans(mt3d);
+                    persp.polusfera(1, 12, 12);
+
+                    //polusfera-"lopatica"
+                    mt3d.identitet();
+                    mt3d.rotirajY(mt3d.kutRadijani(45));
+                    mt3d.pomakni(2, 4.5, -3.5);
+                    mt3d.rotirajY(mt3d.kutRadijani(kut+120));
+                    persp.trans(mt3d);
+                    persp.polusfera(1, 12, 12);
+
+                    //polusfera-"lopatica"
+                    mt3d.identitet();
+                    mt3d.rotirajY(mt3d.kutRadijani(45));
+                    mt3d.pomakni(2, 4.5, -3.5);
+                    mt3d.rotirajY(mt3d.kutRadijani(kut+240));
+                    persp.trans(mt3d);
+                    persp.polusfera(1, 12, 12);
+                    
+                    requestAnimationFrame(animiraj);
+                    const rez = kut - dKut
+                    if(rez >= 360){
+                        kut = 0;
+                    }
+                    else{
+                        kut -= dKut;
+                    }
+                }
+                animiraj();
+            }
+		</script>
+    </head>
+    <body onload=crtaj()>
+        <div class="nav">
+            <nav>
+                <ul>
+                    <li><a href="../5/index.html">Zadaća 5</a></li>
+                    <li><a href="../5/zadatak1.html">Zadatak 1</a></li>
+                </ul>
+            </nav>
+        </div>
+        <div>
+            <h1>Zadatak 1.</h1>
+            <h2>Student: Jerry John Antolos <br> JMBAG: 0016120073 <br> Datum: 17. studenog 2022.</h2>
+        </div>	
+
+        <div>
+            <canvas id="platno" width="500" height="500">
+                Vaš preglednik ne podržava HTML5 canvas.
+            </canvas>
+            <h4>Zadatak 1. Žičani model anemometra</h4>
+        </div>
+	</body>
+    <script src="../5/js/PERSP.js"></script>
+    <script src="../5/js/MT3D.js"></script>
+</html>

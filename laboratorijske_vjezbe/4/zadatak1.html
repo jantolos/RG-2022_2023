@@ -1,0 +1,172 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Domaća zadaća 3</title>
+        <link rel="stylesheet" href="../4/css/styles.css">
+
+        <script>
+            function kocka(ort, a){
+                var koordinata = a/2;
+                ort.postaviNa(koordinata, -koordinata, -koordinata);
+                ort.linijaDo(koordinata, koordinata, -koordinata);
+                ort.linijaDo(-koordinata, koordinata, -koordinata);
+                ort.linijaDo(-koordinata, -koordinata, -koordinata);
+                ort.linijaDo(koordinata, -koordinata, -koordinata);
+                ort.linijaDo(koordinata, -koordinata, koordinata);
+                ort.linijaDo(koordinata, koordinata, koordinata);
+                ort.linijaDo(-koordinata, koordinata, koordinata);
+                ort.linijaDo(-koordinata, -koordinata, koordinata);
+                ort.linijaDo(koordinata, -koordinata, koordinata);
+                ort.povuciLiniju();
+                ort.postaviNa(koordinata, koordinata, koordinata);
+                ort.linijaDo(koordinata, koordinata, -koordinata);
+                ort.povuciLiniju();
+                ort.postaviNa(-koordinata, koordinata, koordinata);
+                ort.linijaDo(-koordinata, koordinata, -koordinata);
+                ort.povuciLiniju();
+                ort.postaviNa(-koordinata, -koordinata, koordinata);
+                ort.linijaDo(-koordinata, -koordinata, -koordinata);
+                ort.povuciLiniju();
+            }
+
+            function pravac(ort, x1, y1, z1, x2, y2, z2){
+                var a = ort.xmin;
+                var b = ((y2 - y1) / (x2 - x1) * (ort.xmin - x1)) + y1;
+                var c = ((z2 - z1) / (x2 - x1) * (ort.xmin - x1)) + z1;
+                ort.postaviNa(a, b, c);
+                for (var x = a; x < ort.xmax; x++){
+                    var y = ((y2 - y1) / (x2 - x1) * (x - x1)) + y1;
+                    var z = ((z2 - z1) / (x2 - x1) * (x - x1)) + z1;
+                    ort.linijaDo(x, y ,z);
+                }
+                ort.povuciLiniju();
+            }
+
+            function crtaj(){
+                var platno = document.getElementById("platno");
+                ort = new Ortho(platno, -10, 10, -10, 10);
+                mt3d = new MT3D();
+                
+                var kut = 0;
+                var dKut = 0.5;
+
+                
+                function rotirajKocku(){
+                    ort.ocisti(); 
+                    mt3d.identitet();
+                    ort.trans(mt3d);
+                    ort.koristiBoju("black");
+                    var radijani = mt3d.kutRadijani(-65);
+                    var radijani2 = mt3d.kutRadijani(20);
+
+                    mt3d.identitet();
+                    mt3d.pomakni(1, 1, 1);
+                    mt3d.rotirajZ(radijani2);
+                    mt3d.rotirajX(radijani);
+                    //mt3d.pomakni(1, 1, 1);
+                    ort.trans(mt3d);
+                    kocka(ort, 2);
+
+                    //mreza
+                    for (var z = -5; z <= 5; z++){
+                        ort.postaviNa(-5, 0, z);
+                        ort.linijaDo(5, 0, z);
+                        ort.povuciLiniju();
+                    }
+
+                    for (var x = -5; x <= 5; x++){
+                        ort.postaviNa(x, 0, -5);
+                        ort.linijaDo(x, 0, 5);
+                        ort.povuciLiniju();
+                    }
+
+                    mt3d.identitet();
+                    mt3d.pomakni(1, 3, 1);
+                    mt3d.rotirajZ(radijani2);
+                    mt3d.rotirajX(radijani);
+                    //mt3d.pomakni(1, 3, 1);
+                    ort.trans(mt3d);
+                    kocka(ort, 2);
+
+                    mt3d.identitet();
+                    mt3d.pomakni(1, 5, 1);
+                    mt3d.rotirajZ(radijani2);
+                    mt3d.rotirajX(radijani);
+                    //mt3d.pomakni(1, 5, 1);
+                    ort.trans(mt3d);
+                    kocka(ort, 2);
+
+                    mt3d.identitet();
+                    mt3d.pomakni(3, 5, 1);
+                    mt3d.rotirajZ(radijani2);
+                    mt3d.rotirajX(radijani);
+                    //mt3d.pomakni(3, 5, 1);
+                    ort.trans(mt3d);
+                    kocka(ort, 2);
+
+                    mt3d.identitet();
+                    mt3d.pomakni(1, 7, 1);
+                    mt3d.rotirajZ(radijani2);
+                    mt3d.rotirajX(radijani);
+                    //mt3d.pomakni(1, 7, 1);
+                    ort.trans(mt3d);
+                    kocka(ort, 2);
+
+                    mt3d.identitet();
+                    mt3d.pomakni(1, 9, 1);
+                    mt3d.rotirajZ(radijani2);
+                    mt3d.rotirajX(radijani);
+                    //mt3d.pomakni(1, 9, 1);
+                    ort.trans(mt3d);
+                    kocka(ort, 2);
+
+                    mt3d.identitet();
+                    mt3d.pomakni(3, 9, 1);
+                    mt3d.rotirajZ(radijani2);
+                    mt3d.rotirajX(radijani);
+                    //mt3d.pomakni(3, 9, 1);
+                    ort.trans(mt3d);
+                    kocka(ort, 2);
+
+                    mt3d.identitet();
+                    mt3d.pomakni(5, 9, 1);
+                    mt3d.rotirajZ(radijani2);
+                    mt3d.rotirajX(radijani);
+                    //mt3d.pomakni(5, 9, 1);
+                    ort.trans(mt3d);
+                    kocka(ort, 2);
+                    
+                    requestAnimationFrame(rotirajKocku);
+                }
+                rotirajKocku();
+            }
+		</script>
+    </head>
+    <body onload=crtaj()>
+        <div class="nav">
+            <nav>
+                <ul>
+                    <li><a href="../4/index.html">Zadaća 3</a></li>
+                    <li><a href="../4/zadatak1.html">Zadatak 1</a></li>
+                </ul>
+            </nav>
+        </div>
+        <div>
+            <h1>Zadatak 1.</h1>
+            <h2>Student: Jerry John Antolos <br> JMBAG: 0016120073 <br> Datum: 03. studenog 2022.</h2>
+        </div>	
+
+        <div>
+            <canvas id="platno" width="500" height="500">
+                Vaš preglednik ne podržava HTML5 canvas.
+            </canvas>
+            <h4>Zadatak 1. Rotacija 3D kocke</h4>
+        </div>
+	</body>
+    <script src="../4/js/ORTHO.js"></script>
+    <script src="../4/js/MT3D.js"></script>
+</html>
