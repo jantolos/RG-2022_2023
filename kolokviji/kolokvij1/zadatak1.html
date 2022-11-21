@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Kolokvij 1</title>
+        <link rel="stylesheet" href="../kolokvij/css/styles.css">
+
+        <script>
+            function crtaj(){
+                var platno = document.getElementById("platno");
+                persp = new Persp(platno, -8, 8, -8, 8, 8);
+                mt3d = new MT3D();
+                
+                var kut = 0;
+                var dKut = 0.25;
+                
+                function animiraj(){
+                    persp.ocisti();
+                    persp.trans(mt3d);
+                    
+                    mt3d.postaviKameru(5, 7, 5, 0, 0, 0, 0, 5, 0);
+                    persp.koristiBoju("black");
+
+                    //mreža
+                    mt3d.identitet();
+                    persp.trans(mt3d);
+                    for (var x = -8; x <= 8; x++){
+                        persp.postaviNa(x, 0, -8);
+                        persp.linijaDo(x, 0, 8);
+                        persp.povuciLiniju();
+                    }
+                    for (var z = -8; z <= 8; z++){
+                        persp.postaviNa(-8, 0, z);
+                        persp.linijaDo(8, 0, z);
+                        persp.povuciLiniju();
+                    }
+                    
+                    //valjak-tjelo
+                    persp.koristiBoju("red");
+                    mt3d.rotirajY(mt3d.kutRadijani(kut));
+                    persp.trans(mt3d);
+                    persp.valjak(0.9,4,14);
+
+                    
+                    //stozac-vrh
+                    persp.koristiBoju("red");
+                    mt3d.rotirajY(mt3d.kutRadijani(kut));
+                    mt3d.pomakni(0, 4, 0);
+                    persp.trans(mt3d);
+                    persp.stozac(0.9,2,14);
+
+                    //stozac-ukras
+                    persp.koristiBoju("red");
+                    mt3d.pomakni(0, 2.5, 0);
+                    persp.trans(mt3d);
+                    persp.sfera(0.5,8,8);
+
+                    //valjak-"elisa1"
+                    persp.koristiBoju("blue");
+                    mt3d.identitet();
+                    mt3d.pomakni(0, 0.9, 0);
+                    mt3d.rotirajZ(mt3d.kutRadijani(90));
+                    mt3d.rotirajY(mt3d.kutRadijani(kut+120));
+                    mt3d.pomakni(0, 1.5, 0);
+                    persp.trans(mt3d);
+                    persp.valjak(0.2, 3, 14);
+
+                    //valjak-"elisa2"
+                    persp.koristiBoju("blue");
+                    mt3d.identitet();
+                    mt3d.pomakni(0, 0.9, 0);
+                    mt3d.rotirajZ(mt3d.kutRadijani(90));
+                    mt3d.rotirajY(mt3d.kutRadijani(kut+240));
+                    mt3d.pomakni(0, 1.5, 0);
+                    persp.trans(mt3d);
+                    persp.valjak(0.2, 3, 14);
+
+                    //valjak-"elisa3"
+                    persp.koristiBoju("blue");
+                    mt3d.identitet();
+                    mt3d.pomakni(0, 0.9, 0);
+                    mt3d.rotirajZ(mt3d.kutRadijani(90));
+                    mt3d.rotirajY(mt3d.kutRadijani(kut+360));
+                    mt3d.pomakni(0, 1.5, 0);
+                    persp.trans(mt3d);
+                    persp.valjak(0.2, 3, 14);
+
+                    //polusfera-"lopatica"
+                    persp.koristiBoju("blue");
+                    mt3d.identitet();
+                    mt3d.rotirajY(mt3d.kutRadijani(-270));
+                    mt3d.rotirajX(mt3d.kutRadijani(-75));
+                    mt3d.rotirajZ(mt3d.kutRadijani(-90));
+                    mt3d.pomakni(2, 1.5, -4.4);
+                    mt3d.rotirajY(mt3d.kutRadijani(kut));
+                    persp.trans(mt3d);
+                    persp.polusfera(1, 12, 12);
+
+                    //polusfera-"lopatica"
+                    persp.koristiBoju("blue");
+                    mt3d.identitet();
+                    mt3d.rotirajY(mt3d.kutRadijani(-270));
+                    mt3d.rotirajX(mt3d.kutRadijani(-75));
+                    mt3d.rotirajZ(mt3d.kutRadijani(-90));
+                    mt3d.pomakni(2, 1.5, -4.4);
+                    mt3d.rotirajY(mt3d.kutRadijani(kut+240));
+                    persp.trans(mt3d);
+                    persp.polusfera(1, 12, 12);
+                    
+                    //polusfera3-"lopatica"
+                    persp.koristiBoju("blue");
+                    mt3d.identitet();
+                    mt3d.rotirajY(mt3d.kutRadijani(-270));
+                    mt3d.rotirajX(mt3d.kutRadijani(-75));
+                    mt3d.rotirajZ(mt3d.kutRadijani(-90));
+                    mt3d.pomakni(2, 1.5, -4.4);
+                    mt3d.rotirajY(mt3d.kutRadijani(kut+120));
+                    persp.trans(mt3d);
+                    persp.polusfera(1, 12, 12);
+
+                    
+                    requestAnimationFrame(animiraj);
+                    const rez = kut + dKut
+                    if(rez >= 360){
+                        kut = 0;
+                    }
+                    else{
+                        kut += dKut;
+                    }
+                }
+                animiraj();
+            }
+		</script>
+    </head>
+    <body onload=crtaj()>
+        <div class="nav">
+            <nav>
+                <ul>
+                    <li><a href="../kolokvij/index.html">Kolokvij 1</a></li>
+                    <li><a href="../kolokvij/zadatak1.html">Zadatak 1</a></li>
+                </ul>
+            </nav>
+        </div>
+        <div>
+            <h1>Kolokvij 1.</h1>
+            <h2>Student: Jerry John Antolos <br> JMBAG: 0016120073 <br> Datum: 17. studenog 2022. <br> Broj bodova: 26/30</h2>
+        </div>	
+
+        <div>
+            <canvas id="platno" width="500" height="500">
+                Vaš preglednik ne podržava HTML5 canvas.
+            </canvas>
+            <h4>Zadatak 1. Žičani model vrtuljka</h4>
+        </div>
+	</body>
+    <script src="../kolokvij/js/PERSP.js"></script>
+    <script src="../kolokvij/js/MT3D.js"></script>
+</html>
