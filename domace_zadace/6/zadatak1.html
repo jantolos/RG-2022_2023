@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Domaća zadaća 6</title>
+    <link rel="stylesheet" href="../6/css/styles.css">
+
+    <script>
+        window.onload = WebGLaplikacija;
+        function WebGLaplikacija() {
+            var platno1 = document.getElementById("platno");
+            gl = platno1.getContext("webgl2");
+            if (!gl) alert("WebGL2 nije dostupan!");
+
+            GPUprogram1 = pripremiGPUprogram(gl, "vertex-shader", "fragment-shader");
+            gl.useProgram(GPUprogram1); // možemo imati više GPU programa
+
+            // povezivanje s uniform varijablama u programima za sjenčanje
+            GPUprogram1.u_mTrans = gl.getUniformLocation(GPUprogram1, "u_mTrans");
+            GPUprogram1.u_boja = gl.getUniformLocation(GPUprogram1, "u_boja");
+
+            var a_1 = 6;
+            var b_1 = 3;
+            var a_2 = 4;
+            var b_2 = 1;
+
+            //prva elipsa
+            var mt2d = new MT2D();
+            mt2d.rotiraj(-30);
+            var x0 = 4;
+            var y0 = 0;
+            mt2d.pomakni(x0, y0);
+            vrhovi = vrhoviElipse(a_1, b_1);
+            napuniSpremnike();
+            iscrtaj(1.0, 0.0, 0.0);//crvena
+
+            //druga elipsa
+            mt2d.identitet();
+            var x0 = 4;
+            var y0 = 0;
+            mt2d.pomakni(x0, y0);
+            mt2d.rotiraj(-30);
+            vrhovi = vrhoviElipse(a_1, b_1);
+            napuniSpremnike();
+            iscrtaj(0.0, 0.0, 1.0);//plava
+
+            //treca elipsa
+            mt2d.identitet();
+            var x0 = 3;
+            var y0 = 0;
+            mt2d.zrcaliNaY();
+            mt2d.pomakni(x0, y0);
+            mt2d.rotiraj(75);
+            vrhovi = vrhoviElipse(a_2, b_2);
+            napuniSpremnike();
+            iscrtaj(0.0, 1.0, 0.0);//zelena
+
+            function vrhoviElipse(a, b) {
+                mt2d.projekcija2D(-10, 10, -10, 10);
+                var vrhovi = [];
+                vrhovi.push(0.0, 0.0);
+                for (var t = 0; t <= 2 * Math.PI; t += 0.001) {
+                    let x = a * Math.cos(t);
+                    let y = b * Math.sin(t);
+                    vrhovi.push(x);
+                    vrhovi.push(y);
+                }
+                return vrhovi;
+            }
+            // funkicija preuzeta s predavanja
+            function napuniSpremnike() {
+                spremnikVrhova = gl.createBuffer();
+                gl.bindBuffer(gl.ARRAY_BUFFER, spremnikVrhova);
+
+                // povezivanje s atribut varijablom a_vrhXY u programu za sjenčanje
+                GPUprogram1.a_vrhXY = gl.getAttribLocation(GPUprogram1, "a_vrhXY");
+                gl.enableVertexAttribArray(GPUprogram1.a_vrhXY);
+                gl.vertexAttribPointer(GPUprogram1.a_vrhXY, 2, gl.FLOAT, false, 0, 0);
+                // punjenje spremnika - podaci koji se šalju na GPU
+                gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vrhovi), gl.STATIC_DRAW);
+            } // napuniSpremnike
+
+            // dorađena funkcija s predavanja -> fukciji se prosljeđuju parametri boje RGB
+            function iscrtaj(red, green, blue) {
+                // postavljanje vrijednosti uniform varijabli
+                gl.uniformMatrix3fv(GPUprogram1.u_mTrans, false, mt2d.lista());
+                gl.uniform4fv(GPUprogram1.u_boja, [red, green, blue, 1.0]); // promjena boje elipse
+                gl.drawArrays(gl.TRIANGLE_FAN, 0, vrhovi.length / 2);
+            } // iscrtaj
+        }// WebGLaplikacija
+    </script>
+    <!--shaderi preuzeti s predavanja uz malu doradu vertex shadera-->
+    <script id="vertex-shader" type="x-shader/x-vertex">
+        #version 300 es
+        in vec2 a_vrhXY;
+        uniform mat3 u_mTrans;
+
+        void main() {
+            gl_Position = vec4(u_mTrans * vec3(a_vrhXY, 1), 1); // primijeni matricu transformacije
+        }
+    </script>
+
+    <script id="fragment-shader" type="x-shader/x-fragment">
+        #version 300 es
+        precision mediump float;
+        uniform vec4 u_boja;
+        out vec4 bojaPiksela;
+  
+        void main() {
+            bojaPiksela = u_boja; // boja se postavlja preko uniform varijable u_boja
+        }
+    </script>
+</head>
+
+<body>
+    <div class="nav">
+        <nav>
+            <ul>
+                <li><a href="../6/index.html">Zadaća 6</a></li>
+                <li><a href="../6/zadatak1.html">Zadatak 1</a></li>
+            </ul>
+        </nav>
+    </div>
+    <div>
+        <h1>Zadatak 1.</h1>
+        <h2>Student: Jerry John Antolos <br> JMBAG: 0016120073 <br> Datum: 1. prosinca 2022. <br> Broj bodova: 3/4</h2>
+    </div>
+
+    <div>
+        <canvas id="platno" width="500" height="500">
+            Vaš preglednik ne podržava HTML5 canvas.
+        </canvas>
+        <h4>Zadatak 1. Elipse iz zadaće 2</h4>
+    </div>
+</body>
+<script src="../6/js/RG-WebGL.js"></script>
+<script src="../6/js/MT2D.js"></script>
+
+</html>
