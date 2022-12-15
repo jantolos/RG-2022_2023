@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Domaća zadaća 8</title>
+    <link rel="stylesheet" href="../8/css/styles.css">
+
+    <!--shaderi preuzeti s predavanja uz malu doradu vertex shadera-->
+    <script id="vertex-shader" type="x-shader/x-vertex">
+        #version 300 es
+        in vec3 a_vrhXYZ;
+        in vec3 a_boja;
+        out vec3 v_boja;
+        uniform mat4 u_mTrans;
+
+        void main() {
+            gl_Position = vec4(u_mTrans * vec4(a_vrhXYZ, 1)); // primijeni matricu transformacije
+            v_boja = a_boja;
+        }
+      </script>
+
+    <script id="fragment-shader" type="x-shader/x-fragment">
+        #version 300 es
+        precision highp float;
+        in vec3 v_boja;
+        uniform vec4 u_boja;
+        out vec4 bojaPiksela;
+    
+        void main() {
+          bojaPiksela = vec4(v_boja, 1); // boja se postavlja preko uniform varijable u_boja
+        }
+      </script>
+</head>
+
+<body>
+    <div class="nav">
+        <nav>
+            <ul>
+                <li><a href="../8/index.html">Zadaća 8</a></li>
+                <li><a href="../8/zadatak1.html">Zadatak 1</a></li>
+            </ul>
+        </nav>
+    </div>
+    <div>
+        <h1>Zadatak 1.</h1>
+        <h2>Student: Jerry John Antolos <br> JMBAG: 0016120073 <br> Datum: 15. prosinca 2022. <br> Broj bodova: __/4</h2>
+    </div>
+
+    <div>
+        <canvas id="platno" width="500" height="500">
+            Vaš preglednik ne podržava HTML5 canvas.
+        </canvas>
+        <h4>Zadatak 1. Kruženje oko slova F</h4>
+    </div>
+    <script src="../8/js/RG-WebGL.js"></script>
+    <script src="../8/js/MT3D.js"></script>
+    <script src="../8/js/slovoF.js"></script>
+</body>
+
+</html>
